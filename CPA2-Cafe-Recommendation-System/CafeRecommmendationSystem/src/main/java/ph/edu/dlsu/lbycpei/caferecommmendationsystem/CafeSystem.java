@@ -1,0 +1,127 @@
+package ph.edu.dlsu.lbycpei.caferecommmendationsystem;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class CafeSystem {
+
+    private Menu menu = new Menu();
+    private RecommendationGraph graph = new RecommendationGraph();
+    private Similarity similarity = new Similarity();
+    private Order currentOrder = new Order();
+
+    private Map<String, User> users = new HashMap<>();
+    private User currentUser = null;
+
+    public CafeSystem() {
+        loadSampleMenu();
+        users.put("admin", new User("admin", "admin"));
+    }
+
+    private void loadSampleMenu() {
+        menu.addItem(new MenuItem("Matcha Latte", 150));
+        menu.addItem(new MenuItem("Espresso", 120));
+        menu.addItem(new MenuItem("Dubai Chocolate Brownie", 95));
+        menu.addItem(new MenuItem("Iced Tea", 100));
+        menu.addItem(new MenuItem("Lemonade", 80));
+    }
+
+    public boolean registerUser(String username, String password) {
+        if (users.containsKey(username)) {
+            return false;
+        }
+        users.put(username, new User(username, password));
+        return true;
+    }
+
+    public boolean loginUser(String username, String password) {
+        User user = users.get(username);
+        if (user != null && user.checkPassword(password)) {
+            currentUser = user;
+            return true;
+        }
+        return false;
+    }
+
+    public void logoutUser() {
+        currentUser = null;
+        startNewOrder();
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void startNewOrder() {
+        this.currentOrder = new Order();
+    }
+
+    public Order getCurrentOrder() {
+        return this.currentOrder;
+    }
+
+    public boolean addItemToOrder(String itemName) {
+        MenuItem item = menu.getItemByName(itemName);
+        if (item != null) {
+            currentOrder.addItem(item);
+            return true;
+        }
+        return false;
+    }
+
+    public List<String> getRecommendations() {
+        HashSet<String> recommendations = new HashSet<>();
+
+        for (MenuItem item : currentOrder.getItems()) {
+            String itemName = item.getName();
+
+            String paired = graph.getTopRecommendation(itemName);
+            if (paired != null
+                    && menu.getItemByName(paired) != null
+                    && !currentOrder.containsItem(paired)) {
+                recommendations.add(paired);
+            }
+
+            var list = similarity.getSimilarItems(itemName);
+            for (String sim : list) {
+                if (menu.getItemByName(sim) != null
+                        && !currentOrder.containsItem(sim)) {
+                    recommendations.add(sim);
+                }
+            }
+        }
+        return new ArrayList<>(recommendations);
+    }
+
+    public boolean addRecommendedItem(String name) {
+        MenuItem recItem = menu.getItemByName(name);
+        if (recItem != null) {
+            currentOrder.addItem(recItem);
+            return true;
+        }
+        return false;
+    }
+
+    public String finalizeOrder() {
+        if (!currentOrder.getItems().isEmpty()) {
+            graph.updateGraph(currentOrder.getItems());
+
+            if (currentUser != null) {
+                currentUser.addOrderToHistory(currentOrder);
+            }
+        }
+
+        String receiptText = Receipt.getReceiptText(currentOrder);
+
+        startNewOrder();
+
+        return receiptText;
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menu.getItems();
+    }
+}
