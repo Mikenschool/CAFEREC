@@ -108,21 +108,13 @@ public class MainController {
     }
     @FXML
     private void handleAddItemToOrder() {
-        MenuItem item = menuTable.getSelectionModel().getSelectedItem();
-        if (item == null) return;
-
-        boolean success = cafeSystem.addItemToOrder(item.getName());
-
-        if (!success) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Out of Stock");
-            alert.setContentText(item.getName() + " is no longer available.");
-            alert.showAndWait();
-            return;
+        MenuItem selectedItem = menuTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            cafeSystem.addItemToOrder(selectedItem.getName());
+            updateOrderUI();
+        } else {
+            showAlert("Error", "Please select an item from the menu to add.");
         }
-
-        refreshOrderTable();
-        refreshTotal();
     }
 
     @FXML
@@ -233,5 +225,3 @@ public class MainController {
     }
 
 }
-
-
