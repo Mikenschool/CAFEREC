@@ -17,7 +17,6 @@
             <columns>
                 <TableColumn fx:id="colName" text="Item Name" prefWidth="200" />
                 <TableColumn fx:id="colQuantity" text="Quantity" prefWidth="100" />
-                <TableColumn fx:id="colCategory" text="Category" prefWidth="150" />
             </columns>
         </TableView>
     </center>
@@ -27,7 +26,6 @@
         <HBox spacing="10" style="-fx-padding: 20;">
             <TextField fx:id="txtName" promptText="Item Name" />
             <TextField fx:id="txtQuantity" promptText="Quantity" />
-            <TextField fx:id="txtCategory" promptText="Category" />
             <Button text="Add" onAction="#handleAdd" />
             <Button text="Update" onAction="#handleUpdate" />
             <Button text="Delete" onAction="#handleDelete" />
