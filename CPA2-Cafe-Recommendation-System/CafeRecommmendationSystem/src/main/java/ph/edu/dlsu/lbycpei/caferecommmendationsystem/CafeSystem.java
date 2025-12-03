@@ -28,19 +28,19 @@ public class CafeSystem {
     }
 
     private void loadSampleMenu() {
-        menu.addItem(new MenuItem("Matcha Latte", 150, "Hot Drinks"));
-        menu.addItem(new MenuItem("Espresso", 120, "Hot Drinks"));
-        menu.addItem(new MenuItem("Dubai Chocolate Brownie", 95, "Snacks"));
-        menu.addItem(new MenuItem("Iced Tea", 100, "Cold Drinks"));
-        menu.addItem(new MenuItem("Lemonade", 80, "Cold Drinks"));
+        menu.addItem(new MenuItem("Matcha Latte", 150));
+        menu.addItem(new MenuItem("Espresso", 120));
+        menu.addItem(new MenuItem("Dubai Chocolate Brownie"));
+        menu.addItem(new MenuItem("Iced Tea", 100));
+        menu.addItem(new MenuItem("Lemonade", 80));
     }
 
     private void loadSampleInventory() {
-        inventory.addItem(new InventoryItem("Matcha Latte", 50, "Beverage"));
-        inventory.addItem(new InventoryItem("Espresso", 30, "Beverage"));
-        inventory.addItem(new InventoryItem("Dubai Chocolate Brownie", 100, "Sweet"));
-        inventory.addItem(new InventoryItem("Iced Tea", 20, "Beverage"));
-        inventory.addItem(new InventoryItem("Lemonade", 20, "Beverage"));
+        inventory.addItem(new InventoryItem("Matcha Latte", 50));
+        inventory.addItem(new InventoryItem("Espresso", 30));
+        inventory.addItem(new InventoryItem("Dubai Chocolate Brownie", 100));
+        inventory.addItem(new InventoryItem("Iced Tea", 20));
+        inventory.addItem(new InventoryItem("Lemonade", 20));
     }
 
 
@@ -174,4 +174,5 @@ public class CafeSystem {
         return menu.getItems();
     }
 }
+
 
