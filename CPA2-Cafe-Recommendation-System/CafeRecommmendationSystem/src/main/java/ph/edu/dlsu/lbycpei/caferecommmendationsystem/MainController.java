@@ -50,23 +50,6 @@ public class MainController {
         }
     }
 
-    @FXML private ListView<MenuItem> categorizedMenuList;
-    private Map<String, List<MenuItem>> categorizedItems = new HashMap<>();
-
-    public void Categorize() {
-        for (MenuItem item : cafeSystem.getMenuItems()) {
-            categorizedItems.computeIfAbsent(item.getCategory(), k -> new ArrayList<>()).add(item);
-        }
-
-
-        categorizedMenuList.getItems().clear();
-        categorizedItems.forEach((category, items) -> {
-            categorizedMenuList.getItems().add(new MenuItem(category, 0, "Category"));
-            categorizedMenuList.getItems().addAll(items);
-        });
-    }
-
-
 
     @FXML
     public void initialize() {
@@ -242,3 +225,4 @@ public class MainController {
     }
 
 }
+
