@@ -30,7 +30,7 @@ public class CafeSystem {
     private void loadSampleMenu() {
         menu.addItem(new MenuItem("Matcha Latte", 150));
         menu.addItem(new MenuItem("Espresso", 120));
-        menu.addItem(new MenuItem("Dubai Chocolate Brownie"));
+        menu.addItem(new MenuItem("Dubai Chocolate Brownie", 95));
         menu.addItem(new MenuItem("Iced Tea", 100));
         menu.addItem(new MenuItem("Lemonade", 80));
     }
@@ -174,5 +174,6 @@ public class CafeSystem {
         return menu.getItems();
     }
 }
+
 
 
