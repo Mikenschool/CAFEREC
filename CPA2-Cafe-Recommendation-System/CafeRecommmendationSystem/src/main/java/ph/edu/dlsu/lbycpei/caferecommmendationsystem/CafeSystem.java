@@ -23,6 +23,8 @@ public class CafeSystem {
     public CafeSystem() {
         loadSampleMenu();
         loadUsers();
+        loadSampleInventory();
+        users.put("admin", new User("admin", "admin"));
     }
 
     private void loadSampleMenu() {
@@ -172,3 +174,4 @@ public class CafeSystem {
         return menu.getItems();
     }
 }
+
