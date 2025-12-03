@@ -16,21 +16,28 @@ public class Inventory {
     }
 
     public InventoryItem getItemByName(String name) {
-        for (InventoryItem it : items) {
-            if (it.getName().equalsIgnoreCase(name))
-                return it;
+        for (InventoryItem item : items) {
+            if (item.getName().equalsIgnoreCase(name)) {
+                return item;
+            }
         }
         return null;
     }
 
-    public boolean reduceStock(String itemName) {
-        InventoryItem item = getItemByName(itemName);
+    public boolean removeItem(InventoryItem toRemove) {
+        return items.remove(toRemove);
+    }
+
+    public boolean reduceStock(String name) {
+        InventoryItem item = getItemByName(name);
         if (item == null) return false;
 
-        if (item.getQuantity() > 0) {
-            item.setQuantity(item.getQuantity() - 1);
-            return true;
+        int updated = item.getQuantity() - 1;
+        if (updated <= 0) {
+            items.remove(item);
+        } else {
+            item.setQuantity(updated);
         }
-        return false;
+        return true;
     }
 }
