@@ -40,7 +40,6 @@ public class InventoryController {
     private void handleAdd() {
         String name = txtName.getText();
 
-
         int quantity;
         try {
             quantity = Integer.parseInt(txtQuantity.getText());
@@ -49,8 +48,10 @@ public class InventoryController {
             return;
         }
 
+        InventoryItem newItem = new InventoryItem(name, quantity);
+        cafeSystem.getInventory().addItem(newItem);
 
-        inventoryList.add(new InventoryItem(name, quantity));
+        inventoryList.add(newItem);
         clearFields();
     }
 
@@ -58,28 +59,31 @@ public class InventoryController {
     @FXML
     private void handleUpdate() {
         InventoryItem item = inventoryTable.getSelectionModel().getSelectedItem();
-        if (item == null) { showAlert("Select an item to update."); return; }
-
+        if (item == null) {
+            showAlert("Select an item to update.");
+            return;
+        }
 
         item.setName(txtName.getText());
-
-
         try {
             item.setQuantity(Integer.parseInt(txtQuantity.getText()));
         } catch (NumberFormatException e) {
             showAlert("Invalid quantity");
         }
 
-
         inventoryTable.refresh();
         clearFields();
     }
 
-
     @FXML
     private void handleDelete() {
         InventoryItem item = inventoryTable.getSelectionModel().getSelectedItem();
-        if (item == null) { showAlert("Select an item to delete."); return; }
+        if (item == null) {
+            showAlert("Select an item to delete.");
+            return;
+        }
+
+        cafeSystem.getInventory().removeItem(item);
         inventoryList.remove(item);
     }
 
