@@ -17,12 +17,10 @@ public class InventoryController {
     @FXML private TableView<InventoryItem> inventoryTable;
     @FXML private TableColumn<InventoryItem, String> colName;
     @FXML private TableColumn<InventoryItem, Integer> colQuantity;
-    @FXML private TableColumn<InventoryItem, String> colCategory;
 
 
     @FXML private TextField txtName;
     @FXML private TextField txtQuantity;
-    @FXML private TextField txtCategory;
 
 
     private final ObservableList<InventoryItem> inventoryList = FXCollections.observableArrayList();
@@ -32,7 +30,6 @@ public class InventoryController {
     public void initialize() {
         colName.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getName()));
         colQuantity.setCellValueFactory(c -> new javafx.beans.property.SimpleIntegerProperty(c.getValue().getQuantity()).asObject());
-        colCategory.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getCategory()));
 
 
         inventoryTable.setItems(inventoryList);
@@ -42,7 +39,6 @@ public class InventoryController {
     @FXML
     private void handleAdd() {
         String name = txtName.getText();
-        String category = txtCategory.getText();
 
 
         int quantity;
@@ -54,7 +50,7 @@ public class InventoryController {
         }
 
 
-        inventoryList.add(new InventoryItem(name, quantity, category));
+        inventoryList.add(new InventoryItem(name, quantity));
         clearFields();
     }
 
@@ -66,7 +62,6 @@ public class InventoryController {
 
 
         item.setName(txtName.getText());
-        item.setCategory(txtCategory.getText());
 
 
         try {
@@ -92,7 +87,6 @@ public class InventoryController {
     private void clearFields() {
         txtName.clear();
         txtQuantity.clear();
-        txtCategory.clear();
     }
 
 
@@ -131,5 +125,6 @@ public class InventoryController {
                 FXCollections.observableArrayList(cafeSystem.getInventory().getItems())
         );
     }
+
 
 }
