@@ -1,10 +1,8 @@
 package ph.edu.dlsu.lbycpei.caferecommmendationsystem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList; import java.util.List;
 
 public class Menu {
-
     private List<MenuItem> items = new ArrayList<>();
 
     public void addItem(MenuItem item) {
