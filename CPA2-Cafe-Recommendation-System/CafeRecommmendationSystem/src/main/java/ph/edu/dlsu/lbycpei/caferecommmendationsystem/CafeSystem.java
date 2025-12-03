@@ -14,7 +14,7 @@ public class CafeSystem {
     private Similarity similarity = new Similarity();
     private Order currentOrder = new Order();
 
-    private Inventory inventory = new Inventory();
+    private final Inventory inventory = new Inventory();
     public Inventory getInventory() { return inventory; }
 
     private Map<String, User> users = new HashMap<>();
@@ -22,8 +22,8 @@ public class CafeSystem {
 
     public CafeSystem() {
         loadSampleMenu();
-        loadUsers();
         loadSampleInventory();
+        loadUsers();
         users.put("admin", new User("admin", "admin"));
     }
 
@@ -110,8 +110,6 @@ public class CafeSystem {
             return false;
         }
 
-        inventory.reduceStock(itemName);
-
         MenuItem item = menu.getItemByName(itemName);
         if (item != null) {
             currentOrder.addItem(item);
@@ -156,6 +154,11 @@ public class CafeSystem {
 
     public String finalizeOrder() {
         if (!currentOrder.getItems().isEmpty()) {
+
+            for (MenuItem item : currentOrder.getItems()) {
+                inventory.reduceStock(item.getName());
+            }
+
             graph.updateGraph(currentOrder.getItems());
 
             if (currentUser != null) {
@@ -174,6 +177,3 @@ public class CafeSystem {
         return menu.getItems();
     }
 }
-
-
-
