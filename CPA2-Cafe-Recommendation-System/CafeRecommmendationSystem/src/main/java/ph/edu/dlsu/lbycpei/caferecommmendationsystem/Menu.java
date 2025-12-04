@@ -21,4 +21,8 @@ public class Menu {
         }
         return null;
     }
+
+    public void removeItem(MenuItem menuItem) {
+        items.remove(menuItem);
+    }
 }
