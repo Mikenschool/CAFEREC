@@ -224,4 +224,10 @@ public class MainController {
         }
     }
 
+    public void refreshMenuTable() {
+        menuTable.setItems(
+                FXCollections.observableArrayList(cafeSystem.getMenuItems())
+        );
+        menuTable.refresh();
+    }
 }
