@@ -123,6 +123,14 @@ public class CafeSystem {
         HashSet<String> recommendations = new HashSet<>();
 
         for (MenuItem item : currentOrder.getItems()) {
+            for (String rec : item.getRecommendedItems()) {
+                if (menu.getItemByName(rec) != null && !currentOrder.containsItem(rec)) {
+                    recommendations.add(rec);
+                }
+            }
+        }
+
+        for (MenuItem item : currentOrder.getItems()) {
             String itemName = item.getName();
 
             String paired = graph.getTopRecommendation(itemName);
@@ -140,6 +148,7 @@ public class CafeSystem {
                 }
             }
         }
+
         return new ArrayList<>(recommendations);
     }
 
@@ -175,5 +184,46 @@ public class CafeSystem {
 
     public List<MenuItem> getMenuItems() {
         return menu.getItems();
+    }
+
+    public void addNewItem(String name, int quantity, double price, List<String> recs) {
+        inventory.addItem(new InventoryItem(name, quantity));
+
+        MenuItem newItem = new MenuItem(name, price);
+        newItem.setRecommendedItems(recs);
+
+        menu.addItem(newItem);
+    }
+
+    public void updateItemRecommendations(String itemName, List<String> newRecs) {
+        MenuItem item = menu.getItemByName(itemName);
+        if (item != null) {
+            item.setRecommendedItems(newRecs);
+        }
+    }
+
+    public void updateItemName(String oldName, String newName) {
+        InventoryItem inv = inventory.getItemByName(oldName);
+        MenuItem menuItem = menu.getItemByName(oldName);
+
+        if (inv != null) inv.setName(newName);
+        if (menuItem != null) menuItem.setName(newName);
+    }
+
+    public void updateItemQuantity(String name, int newQty) {
+        InventoryItem inv = inventory.getItemByName(name);
+        if (inv != null) inv.setQuantity(newQty);
+    }
+
+    public void removeItemEverywhere(String name) {
+        InventoryItem inv = inventory.getItemByName(name);
+        MenuItem menuItem = menu.getItemByName(name);
+
+        if (inv != null) inventory.removeItem(inv);
+        if (menuItem != null) menu.removeItem(menuItem);
+    }
+
+    public Inventory getMenu() {
+        return inventory;
     }
 }
